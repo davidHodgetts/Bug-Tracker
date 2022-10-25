@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS UserAccount(
+    Username INT(11) NOT NULL,
+    First_name TEXT(20) NOT NULL,
+    Second_name TEXT(20) NOT NULL,
+    Phone_number INT(12),
+    Mobile_number INT(12),
+    Occupation TEXT(10),
+    User_password TEXT(12),
+    PRIMARY KEY (Username)
+);
+
+
+CREATE TABLE if not EXISTS Reported_bugs(
+    Bug_ID int(11) NOT NULL AUTO_INCREMENT,
+    Username INT(11) NOT NULL,
+    severity ENUM ("Cosmetic","Minor","Moderate", "Major", "Critical"),
+    priority ENUM ("low","standard", "high"),
+    Bug_description Text(20) NOT NULL,
+    PRIMARY KEY (Bug_ID),
+    FOREIGN KEY (Username) References useraccount(Username)
+    );
+
+
+
+
+CREATE TABLE if NOT EXISTS Developer(
+	Dev_ID int(11) NOT NULL AUTO_INCREMENT,
+    Username Text(20),
+    D_password CHAR (60),
+    PRIMARY KEY (DEV_ID)
+)
+
+CREATE TABLE IF NOT EXISTS Developer_tasks(
+    Task_ID INT(11) NOT NULL AUTO_INCREMENT,
+    Bug_ID INT(11) NOT NULL, Dev_ID INT(11) NOT NULL, 
+    completed boolean,
+    completion_date DATE,
+    PRIMARY KEY(Task_ID),
+    FOREIGN KEY(Bug_ID) REFERENCES reported_bugs(Bug_ID),
+    FOREIGN KEY(Dev_ID) REFERENCES Developer(Dev_ID)
+)
+
+CREATE TABLE IF NOT EXISTS Admin(
+   Admin_ID int (11) NOT NULL AUTO_INCREMENT,
+    Username Text(20),
+    D_password CHAR (60),
+    PRIMARY KEY (Admin_ID)
+)
+
+CREATE TABLE IF NOT EXISTS Modify_History(
+   Modify_ID int (11) NOT NULL AUTO_INCREMENT,
+    Bug_ID int (11) NOT NULL,
+    Admin_ID int (11) NOT NULL,
+    Modify_date Date NOT NULL,
+    Change_desc varchar (30),
+    Old_Var varchar(30),
+    New_Var varchar(30),
+    Modify_type varchar(10),
+    PRIMARY KEY (Modify_ID),
+    FOREIGN KEY(Bug_ID) REFERENCES reported_bugs(Bug_ID),
+    FOREIGN KEY(Admin_ID) REFERENCES admin(Admin_ID)
+)
